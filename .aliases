@@ -1,0 +1,128 @@
+echo sourcing .aliases
+
+alias gdb.master '/home/lmckhou/bin/gdb.master --data-directory=/home/lmckhou/data-directory \!*'
+
+set gdb=/home/lmckhou/git/binutils-gdb/gdb
+set cdt=/home/lmckhou/git/org.eclipse.cdt/
+set build=/home/lmckhou/git/org.eclipse.cdt/build
+set codan=/home/lmckhou/git/org.eclipse.cdt/codan
+set core=/home/lmckhou/git/org.eclipse.cdt/core
+set debug=/home/lmckhou/git/org.eclipse.cdt/debug
+set doc=/home/lmckhou/git/org.eclipse.cdt/doc
+set dsf=/home/lmckhou/git/org.eclipse.cdt/dsf
+set dsfgdb=/home/lmckhou/git/org.eclipse.cdt/dsf-gdb
+set jtag=/home/lmckhou/git/org.eclipse.cdt/jtag
+set launch=/home/lmckhou/git/org.eclipse.cdt/launch
+set memory=/home/lmckhou/git/org.eclipse.cdt/memory
+set releng=/home/lmckhou/git/org.eclipse.cdt/releng
+set remote=/home/lmckhou/git/org.eclipse.cdt/remote
+set visualizer=/home/lmckhou/git/org.eclipse.cdt/visualizer
+set repo=/home/lmckhou/git/org.eclipse.cdt/releng/org.eclipse.cdt.repo
+set target=/home/lmckhou/git/org.eclipse.cdt/releng/org.eclipse.cdt.target
+set imt=/project/lmimtdesign/lmckhou
+
+alias backup 'rsync -avh --delete /home/lmckhou/TPMWork /project/lmimtdesign/lmckhou/'
+alias open xdg-open
+alias win 'sudo rngd -r /dev/urandom;/opt/Citrix/ICAClient/wfica ${HOME}/.ICAClient/VICS.ica'
+alias gdbmi 'rlwrap -c gdb -i mi \!*'
+alias xephyr 'Xephyr -screen 1600x1200 \!*&'
+alias gitbranchls 'echo ====================================;git for-each-ref --sort=-committerdate refs/heads/ | awk \{print\ \$3\} | sed s,refs/heads/,,'
+alias gitsendemail 'git send-email --smtp-user ericsson\\lmckhou --smtp-server smtps-am.internal.ericsson.com:587 --smtp-encryption tls --annotate HEAD^'
+alias backup1 'rsync -avh --delete --exclude gdb-all --exclude Android --exclude .vagrant.d --exclude .purple --exclude .trashcan --exclude .thumbnails --exclude .mylyn --exclude ericsson --exclude .cache --exclude .config --exclude .eclipse --exclude .local --exclude .m2 --exclude .mozilla /home/lmckhou/ /project/lmimtdesign/lmckhou/backup/lmckhou'
+alias epiphanySync 'rsync -avh --delete /project/lmimtdesign/lmcmcds/backup/ericsson/ /home/lmckhou/ericsson'
+alias xrdp-start 'sudo service xrdp start'
+alias xrdp-stop 'sudo service xrdp stop; sleep 5; sudo xrdp --kill; sudo \rm /var/run/xrdp/xrdp.pid;'
+
+alias buildgdb '../configure CXXFLAGS="-g3 -O0" CFLAGS="-g3 -O0" --disable-ld --disable-gold --disable-gas && make -j8'
+
+alias ps 'ps -ef'
+
+alias sap ' env PATH=$HOME/jre1.7.0_09/bin:$PATH $HOME/sap/startsap'
+alias pidgin 'env NSS_SSL_CBC_RANDOM_IV=0 \pidgin'
+alias imtmount 'sudo mount -t nfs moecn1.mo.ca.am.ericsson.se:/vol/volp2011/lmimtdesign  /project/lmimtdesign/'
+
+alias dos2unix fromdos 
+alias unix2dos todos
+alias qr 'qrencode -l L -v 1 -o qr.png \!*'
+alias acroread evince
+alias xdiff 'diffuse \!* &'
+alias remind '\mail marc.khouzam@ericsson.com'
+alias zpm '/project/mgwsim/tools/cello/zpm.r8a'
+alias ci 'echo disabled ci'
+alias co 'echo disabled co'
+alias upgrade /vobs/mgwsim/prod/dp/installation/bin/upgrade
+# pserver port
+alias pserverport 'ssh -L 2401:dev.eclipse.org:2401 lmckhou@192.75.89.9 -N -f'
+# extssh where 2402 is a port I picked myself
+alias extsshport 'ssh -L 2402:dev.eclipse.org:22 lmckhou@192.75.89.9 -N -f'
+alias eclipseports 'pserverport;extsshport'
+alias gdbport 'ssh -L 2408:sourceware.org:2401 lmckhou@192.75.89.9 -N -f'
+alias junitport 'ssh -L 2409:junit.cvs.sourceforge.net:2401 lmckhou@192.75.89.9 -N -f'
+
+# When using pipes, having the line number breaks things
+#alias grep 'grep -n'
+alias vi      vim
+alias lvi    vim -R
+alias gvi     gvim
+alias telnet             '\telnet \!*;title'
+alias ssh             '\ssh \!*;title'
+alias rsh             '\rsh \!*;title'
+alias rlogin          'rsh'
+alias setcs      '/home/lmcaupa/bin/cc.scs'
+alias man      'man -a'
+alias du      'du -h'
+alias diff      'diff -w'
+#alias less              'less -i -x4 -N -T~lmckhou/tags'
+alias less              'less -i -x4 -N -R'
+alias gtarx      'gtar zxf \!*'
+alias gtarc      'gtar zcf \!*'
+alias gtart      'gtar ztf \!*'
+alias sdiff             'sdiff -w 350 \!* | less'
+#alias clean             '\rm *~ .*~>&/dev/null'
+alias clean             '\rm *~ .*~'
+alias p       phone
+alias title            'xtitle `hostname`'
+#alias psu      'ps -u `whoami`'
+alias emptytrash   '\chmod -R u+wx ${HOME}/.trashcan>&/dev/null;\rm -rf ${HOME}/.trashcan;mkdir ${HOME}/.trashcan;echo Trash deleted\!'
+alias ls      'ls-F --color'
+alias rm      '\mv \!* ${HOME}/.trashcan/'
+alias unrm      '\mv -i ${HOME}/.trashcan/\!* .'
+alias cp      '\cp -i'
+alias mv      '\mv -i'
+#alias dir      '\ls -l'
+#alias copy      cp
+#alias del      rm
+#alias type       cat
+alias h            'history -r \!* | \less -i -x4'
+#alias .             'pwd'
+alias ..            'cd ..'
+alias la            'ls-F -Ah'
+alias ll            'ls-F -lAh'
+alias lt            'ls-F -lrth'
+alias c        clear 
+alias j             'jobs -l'
+alias psg           'ps -ef | grep \!* | grep -v grep'
+
+#
+#  Other aliases that you might find useful or enlightening.
+#
+
+#alias pop           'popd'
+#alias push          'pushd'
+alias x             'chmod u+x'
+#alias slay 'set j=`ps -ax|grep \\!*|head -1`; kill -9 `echo $j[1]`'
+
+###########################
+# Terminal server for Linux
+###########################
+#alias TerminalServer    '/usr/lib/ICAClient/wfcmgr'
+#alias word      '/usr/lib/ICAClient/wfica -desc "ms word 2000"&'
+#alias outlook      '/usr/lib/ICAClient/wfica -desc "ms outlook 2000"&'
+#alias excel      '/usr/lib/ICAClient/wfica -desc "ms excel 2000"&'
+#alias powerp      '/usr/lib/ICAClient/wfica -desc "ms powerpoint 2000"&'
+#alias desktop      '/usr/lib/ICAClient/wfica -desc "desktop"&'
+
+alias xterm '\xterm -rv +sb -si -sk -sl 9000 -geom 150x50 -e /usr/bin/tcsh&'
+alias xterm "\xterm -font '-*-fixed-medium-r-*-*-18-*-*-*-*-*-iso8859-*' +sb -si -sk -sl 9000 -geom 150x50 -e /usr/bin/tcsh&"
+alias gterminal '\gnome-terminal -x /usr/bin/tcsh&'
+

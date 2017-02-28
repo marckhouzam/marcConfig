@@ -1,0 +1,57 @@
+echo sourcing .lmckhou.rc
+set to_add = ${HOME}/bin
+if ("`printenv PATH | egrep -e \^${to_add}`" == "") set path = (${to_add} $path)
+set to_add = ${HOME}/gdb-all/bin
+if ("`printenv PATH | egrep -e \^${to_add}`" == "") set path = (${to_add} $path)
+set to_add = /usr/NX/bin
+
+setenv http_proxy http://www-proxy.ericsson.se:8080
+setenv HTTP_PROXY http://www-proxy.ericsson.se:8080
+setenv https_proxy http://www-proxy.ericsson.se:8080
+setenv HTTPS_PROXY http://www-proxy.ericsson.se:8080
+
+# dont use resize automatically because it prevents me from
+# typing while the shell is starting
+#resize > /dev/null
+
+#set noclobber
+set notify
+set filec
+set ignoreeof
+unset autologout
+unset autocorrect
+unset correct
+set nobeep
+
+umask 022
+set autolist=ambiguous
+set autoexpand
+set history=250
+set savehist=100
+setenv PAGER less
+setenv EDITOR vim
+setenv WINDEDITOR gvim 
+setenv ICAROOT /usr/lib/ICAClient
+set histdup=prev
+
+# This variable causes problem to eclipse with respect
+# to background color (see https://bugs.eclipse.org/bugs/show_bug.cgi?id=218250)
+# Note that when telneting to a machine, this variable is not set, so I guess
+# it is not important for a shell.
+# It is present from SLED10 from the desktop
+unsetenv GTK2_RC_FILES
+
+set prompt="[%C2]> "
+
+#stty erase ^H
+stty erase 
+stty intr 
+
+source ~lmckhou/.aliases
+source ~lmckhou/.git-completion.tcsh
+source ~lmckhou/.lttng-tcsh_completion
+title
+xset r on
+
+complete cd 'p/1/d/'
+complete ssh 'p/*/(mkhouzam@build.eclipse.org localhost 127.0.0.1 ubuntu1204)/'
