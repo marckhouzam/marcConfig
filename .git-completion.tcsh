@@ -1,6 +1,6 @@
 # tcsh completion support for core Git.
 #
-# Copyright (C) 2012, 2015 Marc Khouzam <marc.khouzam@gmail.com>
+# Copyright (C) 2012, 2017 Marc Khouzam <marc.khouzam@gmail.com>
 # Distributed under the GNU General Public License, version 2.0.
 #
 # When sourced, this script will generate a new script that uses
@@ -32,13 +32,13 @@
 # and will obtain:
 #     =====================================
 #     git-completion.bash returned:
-#     commit  config 
+#     commit  config
 #     =====================================
 #     Completions including tcsh additions:
-#     commit  config 
+#     commit  config
 #     =====================================
 #     Final completions returned:
-#     commit 
+#     commit
 #     config
 #
 
@@ -51,13 +51,18 @@ if ( ${__git_tcsh_completion_version[1]} < 6 || \
 endif
 unset __git_tcsh_completion_version
 
+set __git_tcsh_completion_bash_main_completion_script = /usr/share/bash-completion/bash_completion
 set __git_tcsh_completion_original_script = ${HOME}/.git-completion.bash
+set __git_tcsh_completion_system_original_script = /usr/share/bash-completion/completions/git
 set __git_tcsh_completion_script = ${HOME}/.git-completion.tcsh.bash
 
 # Check that the user put the script in the right place
 if ( ! -e ${__git_tcsh_completion_original_script} ) then
-	echo "git-completion.tcsh: Cannot find: ${__git_tcsh_completion_original_script}.  Git completion will not work."
-	exit
+	if ( ! -e ${__git_tcsh_completion_system_original_script} ) then
+		echo "git-completion.tcsh: Cannot find: ${__git_tcsh_completion_original_script}"\
+		     " nor ${__git_tcsh_completion_system_original_script}.  Git completion will not work."
+		exit
+	endif
 endif
 
 cat << EOF >! ${__git_tcsh_completion_script}
@@ -73,10 +78,26 @@ if [ "\$1" == "-d" ] || [ "\$1" == "--debug" ]; then
 	shift
 fi
 
-source ${__git_tcsh_completion_original_script}
+if [ -e ${__git_tcsh_completion_bash_main_completion_script} ]; then
+	source ${__git_tcsh_completion_bash_main_completion_script}
+fi
+if [ -e ${__git_tcsh_completion_original_script} ]; then
+	source ${__git_tcsh_completion_original_script}
+else
+	source ${__git_tcsh_completion_system_original_script}
+fi
 
 # Remove the colon as a completion separator because tcsh cannot handle it
 COMP_WORDBREAKS=\${COMP_WORDBREAKS//:}
+
+# For file completion, tcsh needs the '/' to be appended to directories.
+# By default, the bash script does not do that.
+# We can achieve this by using the below compatibility
+# method of the git-completion.bash script.
+__git_index_file_list_filter ()
+{
+	__git_index_file_list_filter_compat
+}
 
 # Set COMP_WORDS in a way that can be handled by the bash script.
 COMP_WORDS=(\$2)

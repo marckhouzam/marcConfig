@@ -5,11 +5,6 @@ set to_add = ${HOME}/gdb-all/bin
 if ("`printenv PATH | egrep -e \^${to_add}`" == "") set path = (${to_add} $path)
 set to_add = /usr/NX/bin
 
-setenv http_proxy http://www-proxy.ericsson.se:8080
-setenv HTTP_PROXY http://www-proxy.ericsson.se:8080
-setenv https_proxy http://www-proxy.ericsson.se:8080
-setenv HTTPS_PROXY http://www-proxy.ericsson.se:8080
-
 # dont use resize automatically because it prevents me from
 # typing while the shell is starting
 #resize > /dev/null
@@ -48,10 +43,17 @@ stty erase 
 stty intr 
 
 source ~lmckhou/.aliases
-source ~lmckhou/.git-completion.tcsh
-source ~lmckhou/.lttng-tcsh_completion
-title
+if (-f ~lmckhou/.tcsh-completion.tcsh) then
+    source ~lmckhou/.tcsh-completion.tcsh
+else
+    echo Skipping missing file: ~lmckhou/.tcsh-completion.tcsh
+endif
+#source ~lmckhou/.git-completion.tcsh
+#source ~lmckhou/.docker-completion.tcsh
+#source ~lmckhou/.lttng-tcsh_completion
+#title
 xset r on
 
 complete cd 'p/1/d/'
-complete ssh 'p/*/(mkhouzam@build.eclipse.org localhost 127.0.0.1 ubuntu1204)/'
+complete ssh 'p/*/(mkhouzam@build.eclipse.org localhost 127.0.0.1)/'
+#complete docker 'p/*/(ps run images build)/'
