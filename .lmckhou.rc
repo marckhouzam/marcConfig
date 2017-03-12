@@ -3,7 +3,8 @@ set to_add = ${HOME}/bin
 if ("`printenv PATH | egrep -e \^${to_add}`" == "") set path = (${to_add} $path)
 set to_add = ${HOME}/gdb-all/bin
 if ("`printenv PATH | egrep -e \^${to_add}`" == "") set path = (${to_add} $path)
-set to_add = /usr/NX/bin
+set to_add = ${HOME}/node-v6.10.0-linux-x64/bin
+if ("`printenv PATH | egrep -e \^${to_add}`" == "") set path = (${to_add} $path)
 
 # dont use resize automatically because it prevents me from
 # typing while the shell is starting

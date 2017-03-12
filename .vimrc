@@ -22,6 +22,12 @@ highlight String term=None ctermfg=None
 highlight Comment term=None ctermfg=cyan
 " ======================================
 
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
 set mouse=a
 set mouse=v "To be able to move the cursor with the mouse by pressing v first
 " highlight all instances of the requested search.  Use macro below (nohlsearch) to turn off until next search
