@@ -1,25 +1,27 @@
+#export PATH='/home/lmckhou/go/bin:/home/lmckhou/node-v6.10.0-linux-x64/bin:/home/lmckhou/gdb-all/bin:/home/lmckhou/bin:/home/lmckhou/go/bin:/home/lmckhou/node-v6.10.0-linux-x64/bin:/home/lmckhou/gdb-all/bin:/home/lmckhou/bin:/home/lmckhou/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/lmckhou/bin:/usr/local/java/jre1.8.0_111/bin'
+
 
 # Global aliases
 alias -g G='| grep'
 alias -g L='| less'
-alias -g GL='| GLess'
 GLess () { grep $1 | less -i -p $1 }
+alias -g GL='| GLess'
 
 # Normal aliases
-alias lt='ls -lrt'
-alias du='du -h'
-alias c=clear
-alias x='chmod u+x'
+
 alias acroread='evince'
 alias buildgdb='../configure CXXFLAGS="-g3 -O0" CFLAGS="-g3 -O0" --disable-ld --disable-gold --disable-gas && make -j8'
+alias c=clear
 alias cp='\cp -i'
 alias diff='diff -w'
-alias -- gitbranchls='echo ====================================;git for-each-ref --sort=-committerdate refs/heads/ | awk \{print\ \$3\} | sed s,refs/heads/,,'
-alias gvi='gvim'
+alias du='du -h'
 alias j='jobs -l'
 alias less='less -i -x4 -N -R'
-alias lvi='vim -R'
+alias ll='ls -lAh'
+alias ls='ls -G'
+alias lt='ls -lrth'
 alias man='man -a'
+alias mtop='/usr/bin/top -stats Command,cpu,pid,ppid,Time,user,state,threads, -u -F -R -S -n20'
 alias mv='\mv -i'
 alias open='xdg-open'
 alias ps='ps -ef'
@@ -27,30 +29,65 @@ alias title='xtitle `hostname`'
 alias vi='vim'
 alias x='chmod u+x'
 alias xterm='\xterm -font '\''-*-fixed-medium-r-*-*-18-*-*-*-*-*-iso8859-*'\'' +sb -si -sk -sl 9000 -geom 150x50'
-emptytrash () { \chmod -R u+wx ${HOME}/.trashcan>&/dev/null;\rm -rf ${HOME}/.trashcan;mkdir ${HOME}/.trashcan;echo Trash deleted$ }
-gdb.master () { /home/lmckhou/bin/gdb.master --data-directory=/home/lmckhou/data-directory $* }
+
 gdbmi () { rlwrap -c gdb -i mi $* }
-h () { history -r $* | \less -i -x4 }
+h () { history $* | \less -i -x4 }
+ping () { ping -c 1 $* }
 psg () { ps -ef | grep $* | grep -v grep }
 qr () { qrencode -l L -v 1 -o qr.png $* }
-rm () { \mv $* ${HOME}/.trashcan/ }
-unrm () { \mv -i ${HOME}/.trashcan/$* . }
 sdiff () { sdiff -w 350 $* | less }
 xdiff () { diffuse $* & }
 xephyr () { Xephyr -screen 1600x1200 $*& }
-export LESS='-R'
-export QT_STYLE_OVERRIDE='gtk'
-export WINDEDITOR='gvim'
-export PAGER='less'
-export PATH='/home/lmckhou/go/bin:/home/lmckhou/node-v6.10.0-linux-x64/bin:/home/lmckhou/gdb-all/bin:/home/lmckhou/bin:/home/lmckhou/go/bin:/home/lmckhou/node-v6.10.0-linux-x64/bin:/home/lmckhou/gdb-all/bin:/home/lmckhou/bin:/home/lmckhou/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/lmckhou/bin:/usr/local/java/jre1.8.0_111/bin'
-export KUBECONFIG='/home/lmckhou/.kube/admin.conf:/home/lmckhou/.kube/config'
-export GOPATH='/home/lmckhou/go'
-export JAVA_HOME='/usr/local/java/jre1.8.0_111'
-export EDITOR='vim'
-cdt='/home/lmckhou/git/org.eclipse.cdt/'
-dsf='/home/lmckhou/git/org.eclipse.cdt/dsf'
-dsfgdb='/home/lmckhou/git/org.eclipse.cdt/dsf-gdb'
-gdb='/home/lmckhou/git/binutils-gdb/gdb'
-histdup='prev'
-HISTSIZE='250'
-setopt ignoreeof
+
+# Make RM safe
+rm () { /bin/mv $* ${HOME}/.trashcan/ }
+unrm () { unrmDir=`pwd`;cd $HOME/.trashcan;/bin/mv $* $unrmDir;cd $unrmDir }
+emptytrash () { /bin/chmod -R u+wx ${HOME}/.trashcan>&/dev/null;/bin/rm -rf ${HOME}/.trashcan;/bin/mkdir ${HOME}/.trashcan;echo Trash deleted }
+
+# Variables for directories
+setopt cdablevars
+git=$HOME/git
+vdmtl=$git/vdmtl
+cicdjobs=$vdmtl/cicd-jobs
+cicdlib=$vdmtl/cicd-lib
+kapps=$vdmtl/kubernetes-installed-apps
+graf=$kapps/all-clusters/grafana
+prom=$kapps/all-clusters/prometheus
+jenkins=$kapps/infra-cluster/jenkins
+konga=$kapps/infra-cluster/konga
+nexus=$kapps/infra-cluster/nexus
+cdt=$git/org.eclipse.cdt
+dsf=$git/org.eclipse.cdt/dsf
+dsfgdb=$git/org.eclipse.cdt/dsf-gdb
+gdb=$HOME/git/binutils-gdb/gdb
+
+# Kubernetes stuff
+export KUBECONFIG="$HOME/.kube/config.prod:$HOME/.kube/config.minikube:$HOME/.kube/config.lab:$HOME/.kube/config.dev:$HOME/.kube/config.infra:$HOME/.kube/config.acc:$HOME/.kube/config.local"
+ka () {kubectl $* --all-namespaces }
+alias kenv='kubectl config use-context'
+alias k='kubectl'
+alias kaf='kubectl apply -f'
+alias kc='kubectl'
+alias kcc='kubectl config get-contexts'
+alias kdd='kubectl delete deployment'
+alias kdf='kubectl delete -f'
+alias kdj='kubectl delete job'
+alias kdp='kubectl delete pod'
+alias kgd='kubectl get deployments'
+alias kgi='kubectl get ingress'
+alias kgj='kubectl get jobs'
+alias kgn='kubectl get namespace'
+alias kgp='kubectl get pods'
+alias kgpv='kubectl get pv'
+alias kgpvc='kubectl get pvc'
+alias kgs='kubectl get services'
+alias kl='kubectl logs'
+alias klf='kubectl logs -f'
+alias kvagrant='vagrant --dockerhub=true --mount=${HOME}/git'
+alias kwatch='watch -n1 "kubectl get pods --all-namespaces| grep -v kube-system"'
+alias kwatchlab='watch -n1 "kubectl get pods --all-namespaces| grep -v kube-system|grep -v loadtest"'
+alias labkube='kubectl --kubeconfig ~/.kube/config.lab'
+alias devkube='kubectl --kubeconfig ~/.kube/config.dev'
+alias acckube='kubectl --kubeconfig ~/.kube/config.acc'
+alias prodkube='kubectl --kubeconfig ~/.kube/config.prod'
+alias infrakube='kubectl --kubeconfig ~/.kube/config.infra'
