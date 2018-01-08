@@ -28,6 +28,7 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
+set ruler
 set mouse=a
 set mouse=v "To be able to move the cursor with the mouse by pressing v first
 " highlight all instances of the requested search.  Use macro below (nohlsearch) to turn off until next search
@@ -36,7 +37,7 @@ set mouse=v "To be able to move the cursor with the mouse by pressing v first
 set nobackup
 set writebackup
 
-set tags=/home/lmckhou/tags "Location of the tag file 
+set tags=/Users/marckhouzam/tags "Location of the tag file 
 
 set cinoptions=:0,p0,t0
 set cinwords=if,else,while,do,for,switch,case
@@ -85,14 +86,14 @@ function EnablePaging ()
     map <UP> Hk
 endfunction
 command Page call EnablePaging()
-map <f5> :Page
+map <f7> :Page
 
 function DisablePaging ()
     unmap <DOWN>
     unmap <UP>
 endfunction
 command Nopage call DisablePaging()
-map <f6> :Nopage
+map <f8> :Nopage
 
 map <Space> 
 map b 
@@ -101,7 +102,9 @@ map q :q
 nmap ms :find %:t:r.cc<cr>
 nmap mh :find %:t:r.h<cr>
 
-call plug#begin('~/.vim/plugged')
-Plug 'leafgarland/typescript-vim'
-call plug#end()
+set cm=blowfish
+
+"call plug#begin('~/.vim/plugged')
+"Plug 'leafgarland/typescript-vim'
+"call plug#end()
 

@@ -1,37 +1,83 @@
 echo sourcing .aliases
 
-setenv KUBECONFIG ~/.kube/admin.conf:/home/lmckhou/.kube/config
+set git=${HOME}/git
+set kapps=${HOME}/git/vdmtl/kubernetes-installed-apps
+set prom=${HOME}/git/vdmtl/kubernetes-installed-apps/all-clusters/prometheus
+set graf=${HOME}/git/vdmtl/kubernetes-installed-apps/all-clusters/grafana
+set konga=${HOME}/git/vdmtl/kubernetes-installed-apps/infra-cluster/konga
+set jenkins=${HOME}/git/vdmtl/kubernetes-installed-apps/infra-cluster/jenkins
+set nexus=${HOME}/git/vdmtl/kubernetes-installed-apps/infra-cluster/nexus
+set vdmtl=${HOME}/git/vdmtl/
+set cicdlib=${HOME}/git/vdmtl/cicd-lib
+set cicdjobs=${HOME}/git/vdmtl/cicd-jobs
 
-alias gdb.master '/home/lmckhou/bin/gdb.master --data-directory=/home/lmckhou/data-directory \!*'
+alias kvagrant 'vagrant --dockerhub=true --mount=${HOME}/git'
 
-set gdb=/home/lmckhou/git/binutils-gdb/gdb
-set cdt=/home/lmckhou/git/org.eclipse.cdt/
-set build=/home/lmckhou/git/org.eclipse.cdt/build
-set codan=/home/lmckhou/git/org.eclipse.cdt/codan
-set core=/home/lmckhou/git/org.eclipse.cdt/core
-set debug=/home/lmckhou/git/org.eclipse.cdt/debug
-set doc=/home/lmckhou/git/org.eclipse.cdt/doc
-set dsf=/home/lmckhou/git/org.eclipse.cdt/dsf
-set dsfgdb=/home/lmckhou/git/org.eclipse.cdt/dsf-gdb
-set jtag=/home/lmckhou/git/org.eclipse.cdt/jtag
-set launch=/home/lmckhou/git/org.eclipse.cdt/launch
-set memory=/home/lmckhou/git/org.eclipse.cdt/memory
-set releng=/home/lmckhou/git/org.eclipse.cdt/releng
-set remote=/home/lmckhou/git/org.eclipse.cdt/remote
-set visualizer=/home/lmckhou/git/org.eclipse.cdt/visualizer
-set repo=/home/lmckhou/git/org.eclipse.cdt/releng/org.eclipse.cdt.repo
-set target=/home/lmckhou/git/org.eclipse.cdt/releng/org.eclipse.cdt.target
-set imt=/project/lmimtdesign/lmckhou
+alias kwatch 'watch -n1 "kubectl get pods --all-namespaces| grep -v kube-system"'
+alias kwatchlab 'watch -n1 "kubectl get pods --all-namespaces| grep -v kube-system|grep -v loadtest"'
+alias mtop /usr/bin/top -stats Command,cpu,pid,ppid,Time,user,state,threads, -u -F -R -S -n20
 
-alias backup 'rsync -avh --delete /home/lmckhou/TPMWork /project/lmimtdesign/lmckhou/'
-alias open xdg-open
+alias kc 'kubectl'
+alias kgp 'kubectl get pods'
+alias kgd 'kubectl get deployments'
+alias kgs 'kubectl get services'
+alias kgj 'kubectl get jobs'
+alias kgi 'kubectl get ingress'
+alias kgn 'kubectl get namespace'
+alias kgpv 'kubectl get pv'
+alias kgpvc 'kubectl get pvc'
+alias kcc 'kubectl config get-contexts'
+alias kdp 'kubectl delete pod'
+alias kdd 'kubectl delete deployment'
+alias kdj 'kubectl delete job'
+alias kdf 'kubectl delete -f'
+alias klf 'kubectl logs -f'
+alias kcl 'kubectl logs'
+alias kl 'kubectl logs'
+alias kaf 'kubectl apply -f'
+#alias kra 'krender; kapply'
+
+alias labkube "kubectl --kubeconfig ~/.kube/config.lab"
+alias devkube "kubectl --kubeconfig ~/.kube/config.dev"
+#alias kubectx "kubectl config use-context"
+setenv KUBECONFIG /Users/marckhouzam/.kube/config.prod:/Users/marckhouzam/.kube/config.minikube:/Users/marckhouzam/.kube/config.lab:/Users/marckhouzam/.kube/config.dev:/Users/marckhouzam/.kube/config.infra:/Users/marckhouzam/.kube/config.acc:/Users/marckhouzam/.kube/config.local
+alias k kubectl
+alias ka 'kubectl \!* --all-namespaces' 
+alias kenv 'kubectl config use-context \!*'
+
+# Force curl to use GET unless explicitely told otherwise.
+# This avoid doing a POST by mistake
+alias curl curl -X GET
+alias ping 'ping -c 1 \!*'
+
+alias gdb.master '/Users/marckhouzam/bin/gdb.master --data-directory=/Users/marckhouzam/data-directory \!*'
+
+set gdb=/Users/marckhouzam/git/binutils-gdb/gdb
+set cdt=/Users/marckhouzam/git/org.eclipse.cdt/
+set build=/Users/marckhouzam/git/org.eclipse.cdt/build
+set codan=/Users/marckhouzam/git/org.eclipse.cdt/codan
+set core=/Users/marckhouzam/git/org.eclipse.cdt/core
+set debug=/Users/marckhouzam/git/org.eclipse.cdt/debug
+set doc=/Users/marckhouzam/git/org.eclipse.cdt/doc
+set dsf=/Users/marckhouzam/git/org.eclipse.cdt/dsf
+set dsfgdb=/Users/marckhouzam/git/org.eclipse.cdt/dsf-gdb
+set jtag=/Users/marckhouzam/git/org.eclipse.cdt/jtag
+set launch=/Users/marckhouzam/git/org.eclipse.cdt/launch
+set memory=/Users/marckhouzam/git/org.eclipse.cdt/memory
+set releng=/Users/marckhouzam/git/org.eclipse.cdt/releng
+set remote=/Users/marckhouzam/git/org.eclipse.cdt/remote
+set visualizer=/Users/marckhouzam/git/org.eclipse.cdt/visualizer
+set repo=/Users/marckhouzam/git/org.eclipse.cdt/releng/org.eclipse.cdt.repo
+set target=/Users/marckhouzam/git/org.eclipse.cdt/releng/org.eclipse.cdt.target
+
+alias backup 'rsync -avh --delete /Users/marckhouzam/TPMWork /project/lmimtdesign/lmckhou/'
 alias win 'sudo rngd -r /dev/urandom;/opt/Citrix/ICAClient/wfica ${HOME}/.ICAClient/VICS.ica'
 alias gdbmi 'rlwrap -c gdb -i mi \!*'
 alias xephyr 'Xephyr -screen 1600x1200 \!*&'
 alias gitbranchls 'echo ====================================;git for-each-ref --sort=-committerdate refs/heads/ | awk \{print\ \$3\} | sed s,refs/heads/,,'
 alias gitsendemail 'git send-email --smtp-user ericsson\\lmckhou --smtp-server smtps-am.internal.ericsson.com:587 --smtp-encryption tls --annotate HEAD^'
-alias backup1 'rsync -avh --delete --exclude gdb-all --exclude Android --exclude .vagrant.d --exclude .purple --exclude .trashcan --exclude .thumbnails --exclude .mylyn --exclude ericsson --exclude .cache --exclude .config --exclude .eclipse --exclude .local --exclude .m2 --exclude .mozilla /home/lmckhou/ /project/lmimtdesign/lmckhou/backup/lmckhou'
-alias epiphanySync 'rsync -avh --delete /project/lmimtdesign/lmcmcds/backup/ericsson/ /home/lmckhou/ericsson'
+alias backup1 'rsync -avh --delete --exclude gdb-all --exclude Android --exclude .vagrant.d --exclude .purple --exclude .trashcan --exclude .thumbnails --exclude .mylyn --exclude ericsson --exclude .cache --exclude .config --exclude .eclipse --exclude .local --exclude .m2 --exclude .mozilla /Users/marckhouzam/ /project/lmimtdesign/lmckhou/backup/lmckhou'
+alias epiphanySync 'rsync -avh --delete /project/lmimtdesign/lmcmcds/backup/ericsson/ /Users/marckhouzam/ericsson'
 alias xrdp-start 'sudo service xrdp start'
 alias xrdp-stop 'sudo service xrdp stop; sleep 5; sudo xrdp --kill; sudo \rm /var/run/xrdp/xrdp.pid;'
 
@@ -43,8 +89,6 @@ alias sap ' env PATH=$HOME/jre1.7.0_09/bin:$PATH $HOME/sap/startsap'
 alias pidgin 'env NSS_SSL_CBC_RANDOM_IV=0 \pidgin'
 alias imtmount 'sudo mount -t nfs moecn1.mo.ca.am.ericsson.se:/vol/volp2011/lmimtdesign  /project/lmimtdesign/'
 
-alias dos2unix fromdos 
-alias unix2dos todos
 alias qr 'qrencode -l L -v 1 -o qr.png \!*'
 alias acroread evince
 alias xdiff 'diffuse \!* &'
@@ -66,7 +110,6 @@ alias junitport 'ssh -L 2409:junit.cvs.sourceforge.net:2401 lmckhou@192.75.89.9 
 alias vi      vim
 alias lvi    vim -R
 alias gvi     gvim
-alias rlogin          'rsh'
 alias setcs      '/home/lmcaupa/bin/cc.scs'
 alias man      'man -a'
 alias du      'du -h'
@@ -125,3 +168,6 @@ alias xterm '\xterm -rv +sb -si -sk -sl 9000 -geom 150x50 -e /usr/bin/tcsh&'
 alias xterm "\xterm -font '-*-fixed-medium-r-*-*-18-*-*-*-*-*-iso8859-*' +sb -si -sk -sl 9000 -geom 150x50 -e /usr/bin/tcsh&"
 alias gterminal '\gnome-terminal -x /usr/bin/tcsh&'
 
+#alias open xdg-open
+#For Mac
+alias ls 'ls-F -G'
