@@ -1,5 +1,7 @@
 echo sourcing .aliases
 
+setenv KUBECONFIG ~/.kube/admin.conf:/home/lmckhou/.kube/config
+
 alias gdb.master '/home/lmckhou/bin/gdb.master --data-directory=/home/lmckhou/data-directory \!*'
 
 set gdb=/home/lmckhou/git/binutils-gdb/gdb
@@ -64,9 +66,6 @@ alias junitport 'ssh -L 2409:junit.cvs.sourceforge.net:2401 lmckhou@192.75.89.9 
 alias vi      vim
 alias lvi    vim -R
 alias gvi     gvim
-alias telnet             '\telnet \!*;title'
-alias ssh             '\ssh \!*;title'
-alias rsh             '\rsh \!*;title'
 alias rlogin          'rsh'
 alias setcs      '/home/lmcaupa/bin/cc.scs'
 alias man      'man -a'
