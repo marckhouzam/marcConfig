@@ -1,0 +1,58 @@
+echo sourcing .lmckhou.rc
+set to_add = ${HOME}/bin
+if ("`printenv PATH | egrep -e \^${to_add}`" == "") set path = (${to_add} $path)
+set to_add = ${HOME}/gdb-all/bin
+if ("`printenv PATH | egrep -e \^${to_add}`" == "") set path = (${to_add} $path)
+set to_add = ${HOME}/node-v6.10.0-linux-x64/bin
+if ("`printenv PATH | egrep -e \^${to_add}`" == "") set path = (${to_add} $path)
+
+
+# dont use resize automatically because it prevents me from
+# typing while the shell is starting
+#resize > /dev/null
+
+#set noclobber
+set notify
+set filec
+set ignoreeof
+unset autologout
+unset autocorrect
+unset correct
+set nobeep
+
+umask 022
+set autolist=ambiguous
+set autoexpand
+set history=250
+set savehist=100
+setenv PAGER less
+setenv EDITOR vim
+setenv WINDEDITOR gvim 
+set histdup=prev
+setenv GRADLE_HOME /usr/local/Cellar/gradle/4.0.1/libexec
+
+set prompt="[%c2]> "
+alias precmd 'set prompt="`~/bin/prompt.bash`"'
+#set prompt="[%c2]> "
+
+#stty erase ^H
+stty erase 
+stty intr 
+
+source ~/.aliases
+#source ~/.lttng-tcsh_completion
+source ~/.tcsh-completion.tcsh
+#title
+#xset r on
+
+complete cd 'p/1/d/'
+complete ssh 'p/*/(mkhouzam@build.eclipse.org localhost 127.0.0.1)/'
+
+if ($?tcsh && $?prompt) then
+        bindkey "\e[1~" beginning-of-line # Home
+        bindkey "\e[7~" beginning-of-line # Home rxvt
+        bindkey "\e[2~" overwrite-mode    # Ins
+        bindkey "\e[3~" delete-char       # Delete
+        bindkey "\e[4~" end-of-line       # End
+        bindkey "\e[8~" end-of-line       # End rxvt
+endif
