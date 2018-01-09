@@ -1,7 +1,7 @@
 autoload -U colors; colors
 
 prompt_kubecontext() {
-  kubectx="<- $(kubectl config current-context) ->"
+  kubectx="<- kube-$(kubectl config current-context) ->"
   if [[ ${kubectx} == *"local"* ||
         ${kubectx} == *"minikube"* ||
         ${kubectx} == *"lab"* ]]; then
