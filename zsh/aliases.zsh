@@ -29,10 +29,10 @@ alias title='xtitle `hostname`'
 alias vi='vim'
 alias x='chmod u+x'
 alias xterm='\xterm -font '\''-*-fixed-medium-r-*-*-18-*-*-*-*-*-iso8859-*'\'' +sb -si -sk -sl 9000 -geom 150x50'
+alias ping='ping -c 1'
 
 gdbmi () { rlwrap -c gdb -i mi $* }
 h () { history $* | \less -i -x4 }
-ping () { ping -c 1 $* }
 psg () { ps -ef | grep $* | grep -v grep }
 qr () { qrencode -l L -v 1 -o qr.png $* }
 sdiff () { sdiff -w 350 $* | less }
