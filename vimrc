@@ -33,11 +33,8 @@ set mouse=a
 set mouse=v "To be able to move the cursor with the mouse by pressing v first
 " highlight all instances of the requested search.  Use macro below (nohlsearch) to turn off until next search
 
-"Do not save backups under <name>~ files
-set nobackup
-set writebackup
 
-set tags=/Users/marckhouzam/tags "Location of the tag file 
+set tags=${HOME}/tags "Location of the tag file 
 
 set cinoptions=:0,p0,t0
 set cinwords=if,else,while,do,for,switch,case
@@ -108,3 +105,8 @@ set cm=blowfish
 "Plug 'leafgarland/typescript-vim'
 "call plug#end()
 
+"Do not save backups under <name>~ files
+set nobackup
+" Make the backup as a different file
+" to keep the original file with the same inode
+set backupcopy=yes
