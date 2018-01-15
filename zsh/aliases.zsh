@@ -59,7 +59,8 @@ nexus=$kapps/infra-cluster/nexus
 cdt=$git/org.eclipse.cdt
 dsf=$git/org.eclipse.cdt/dsf
 dsfgdb=$git/org.eclipse.cdt/dsf-gdb
-gdb=$HOME/git/binutils-gdb/gdb
+gdb=$git/binutils-gdb/gdb
+charts=$git/charts
 
 # Kubernetes stuff
 export KUBECONFIG="$HOME/.kube/config.prod:$HOME/.kube/config.minikube:$HOME/.kube/config.lab:$HOME/.kube/config.dev:$HOME/.kube/config.infra:$HOME/.kube/config.acc:$HOME/.kube/config.local"
