@@ -72,6 +72,9 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# Don't share history between shell, it turns out to be annoying
+unsetopt share_history
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
