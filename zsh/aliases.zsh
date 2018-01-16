@@ -84,3 +84,7 @@ alias acckube='kubectl --kubeconfig ~/.kube/config.acc'
 alias prodkube='kubectl --kubeconfig ~/.kube/config.prod'
 alias infrakube='kubectl --kubeconfig ~/.kube/config.infra'
 alias kwatch='watch -n1 "printf %s \ \ \ \ \ \ \ \ \ \ \ \ \ ;kubectl config current-context;echo;echo;kubectl get pods --all-namespaces| grep -v kube-system"'
+
+# Keybindings
+bindkey 'p' history-beginning-search-backward
+bindkey 'P' history-beginning-search-backward
