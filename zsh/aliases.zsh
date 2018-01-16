@@ -1,5 +1,13 @@
 #export PATH='/home/lmckhou/go/bin:/home/lmckhou/node-v6.10.0-linux-x64/bin:/home/lmckhou/gdb-all/bin:/home/lmckhou/bin:/home/lmckhou/go/bin:/home/lmckhou/node-v6.10.0-linux-x64/bin:/home/lmckhou/gdb-all/bin:/home/lmckhou/bin:/home/lmckhou/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/lmckhou/bin:/usr/local/java/jre1.8.0_111/bin'
 
+case $OSTYPE in
+darwin*)
+  alias ls='ls -G'
+  ;;
+linux*)
+  alias ls='ls --color=auto'
+  ;;
+esac
 
 # Global aliases
 alias -g G='| grep'
@@ -18,7 +26,6 @@ alias du='du -h'
 alias j='jobs -l'
 alias less='less -i -x4 -N -R'
 alias ll='ls -lAh'
-alias ls='ls --color'
 alias lt='ls -lrth'
 alias man='man -a'
 alias mtop='/usr/bin/top -stats Command,cpu,pid,ppid,Time,user,state,threads, -u -F -R -S -n20'
