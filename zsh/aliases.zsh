@@ -11,6 +11,7 @@ esac
 
 # Global aliases
 alias -g G='| grep'
+alias -g Gi='| grep -i'
 alias -g L='| less'
 GLess () { grep $1 | less -i -p $1 }
 alias -g GL='| GLess'
@@ -72,6 +73,7 @@ charts=$git/charts
 # Kubernetes stuff
 export KUBECONFIG="$HOME/.kube/config.prod:$HOME/.kube/config.minikube:$HOME/.kube/config.lab:$HOME/.kube/config.dev:$HOME/.kube/config.infra:$HOME/.kube/config.acc:$HOME/.kube/config.local"
 ka () {kubectl $* --all-namespaces }
+alias kgcm='k get configmap'
 alias kenv='kubectl config use-context'
 alias kaf='kubectl apply -f'
 alias kl='kubectl logs'
