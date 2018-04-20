@@ -4,6 +4,7 @@ prompt_kubecontext() {
   kubectx="<- kube-$(kubectl config current-context) ->"
   if [[ ${kubectx} == *"local"* ||
         ${kubectx} == *"minikube"* ||
+        ${kubectx} == *"dind"* ||
         ${kubectx} == *"lab"* ]]; then
         prompt_segment black green "${kubectx}"
   elif [[ ${kubectx} == *"dev"* ||

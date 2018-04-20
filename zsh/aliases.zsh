@@ -6,6 +6,7 @@ darwin*)
   ;;
 linux*)
   alias ls='ls --color=auto'
+  alias open='xdg-open'
   ;;
 esac
 
@@ -31,7 +32,6 @@ alias lt='ls -lrth'
 alias man='man -a'
 alias mtop='/usr/bin/top -stats Command,cpu,pid,ppid,Time,user,state,threads, -u -F -R -S -n20'
 alias mv='\mv -i'
-alias open='xdg-open'
 alias ps='ps -ef'
 #alias title='xtitle `hostname`'
 alias vi='vim'
@@ -56,7 +56,10 @@ emptytrash () { /bin/chmod -R u+wx ${HOME}/.trashcan>&/dev/null;/bin/rm -rf ${HO
 setopt cdablevars
 git=$HOME/git
 vdmtl=$git/vdmtl
+ville=$git/villedemontreal
 cicdjobs=$vdmtl/cicd-jobs
+cicdcharts=$vdmtl/cicd-helm-charts
+cicdchart=$cicdcharts
 cicdlib=$vdmtl/cicd-lib
 kapps=$vdmtl/kubernetes-installed-apps
 graf=$kapps/all-clusters/grafana
@@ -71,7 +74,15 @@ gdb=$git/binutils-gdb/gdb
 charts=$git/charts
 
 # Kubernetes stuff
-export KUBECONFIG="$HOME/.kube/config.prod:$HOME/.kube/config.minikube:$HOME/.kube/config.lab:$HOME/.kube/config.dev:$HOME/.kube/config.infra:$HOME/.kube/config.acc:$HOME/.kube/config.local"
+export KUBECONFIG="\
+$HOME/.kube/config.dind:\
+$HOME/.kube/config.prod:\
+$HOME/.kube/config.minikube:\
+$HOME/.kube/config.lab:\
+$HOME/.kube/config.dev:\
+$HOME/.kube/config.infra:\
+$HOME/.kube/config.acc:\
+$HOME/.kube/config.local"
 ka () {kubectl $* --all-namespaces }
 alias kgcm='k get configmap'
 alias kenv='kubectl config use-context'
@@ -85,7 +96,7 @@ alias devkube='kubectl --kubeconfig ~/.kube/config.dev'
 alias acckube='kubectl --kubeconfig ~/.kube/config.acc'
 alias prodkube='kubectl --kubeconfig ~/.kube/config.prod'
 alias infrakube='kubectl --kubeconfig ~/.kube/config.infra'
-alias kwatch='watch -n1 "printf %s \ \ \ \ \ \ \ \ \ \ \ \ \ ;kubectl config current-context;echo;echo;kubectl get pods --all-namespaces| grep -v kube-system"'
+alias kwatch='watch -n1 "printf %s \ \ \ \ \ \ \ \ \ \ \ \ \ ;kubectl config current-context;echo;echo;kubectl get pods --all-namespaces| grep -v kube-system|grep -v loadtest"'
 
 # Keybindings
 bindkey 'p' history-beginning-search-backward

@@ -56,7 +56,8 @@ set sm  " Show match
 set ignorecase
 set number 
 set list
-set listchars=tab:>.
+"set listchars=nbsp:¬,eol:¶,tab:>-,extends:»,precedes:«,trail:•
+set listchars=nbsp:¬,tab:>-,extends:»,precedes:«,trail:•
 "set report=1
 
 set hlsearch
