@@ -67,6 +67,7 @@ plugins=(
   docker-compose
   vagrant
   zsh-autosuggestions
+  zsh-completions
   npm
   helm
   jx
@@ -108,3 +109,13 @@ unsetopt share_history
 
 bindkey '^[OA' up-line-or-history
 bindkey '^[OB' down-line-or-history
+# Allow a double-esc to accept the autosuggestion from the autosuggestions plugin
+# Note that vi-forward-char is part of ZSH_AUTOSUGGEST_ACCEPT_WIDGETS
+bindkey '' vi-forward-char
+
+# Allow cd ..<TAB> to complete to ../
+zstyle ':completion:*' special-dirs true
+
+# Allow to cd directly into subdirectories of the following
+setopt auto_cd
+cdpath=($vdmtl/kubernetes-installed-apps/all-clusters $vdmtl/kubernetes-installed-apps/infra-cluster $git $vdmtl $ville)

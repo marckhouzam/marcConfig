@@ -1,4 +1,5 @@
-#export PATH='/home/lmckhou/go/bin:/home/lmckhou/node-v6.10.0-linux-x64/bin:/home/lmckhou/gdb-all/bin:/home/lmckhou/bin:/home/lmckhou/go/bin:/home/lmckhou/node-v6.10.0-linux-x64/bin:/home/lmckhou/gdb-all/bin:/home/lmckhou/bin:/home/lmckhou/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/lmckhou/bin:/usr/local/java/jre1.8.0_111/bin'
+export PATH="${HOME}/go/bin:${HOME}/bin:${HOME}/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export GOPATH="${HOME}/go"
 
 case $OSTYPE in
 darwin*)
@@ -16,9 +17,12 @@ alias -g Gi='| grep -i'
 alias -g L='| less'
 GLess () { grep $1 | less -i -p $1 }
 alias -g GL='| GLess'
+alias -g WCL='| wc -l'
 
 # Normal aliases
 
+alias grep='grep -n --exclude-dir=.git --exclude-dir=node_modules'
+alias g=git
 alias acroread='evince'
 alias buildgdb='../configure CXXFLAGS="-g3 -O0" CFLAGS="-g3 -O0" --disable-ld --disable-gold --disable-gas && make -j8'
 alias c=clear
@@ -40,9 +44,9 @@ alias xterm='\xterm -font '\''-*-fixed-medium-r-*-*-18-*-*-*-*-*-iso8859-*'\'' +
 alias ping='ping -c 1'
 
 gdbmi () { rlwrap -c gdb -i mi $* }
-h () { history $* | \less -i -x4 }
+h () { history $* | tail -r | \less -i -x4 }
 psg () { ps -ef | grep $* | grep -v grep }
-qr () { qrencode -l L -v 1 -o qr.png $* }
+qr () { qrencode -l \L -v 1 -o qr.png $* }
 sdiff () { sdiff -w 350 $* | less }
 xdiff () { diffuse $* & }
 xephyr () { Xephyr -screen 1600x1200 $*& }
@@ -72,6 +76,8 @@ dsf=$git/org.eclipse.cdt/dsf
 dsfgdb=$git/org.eclipse.cdt/dsf-gdb
 gdb=$git/binutils-gdb/gdb
 charts=$git/charts
+nginx=$vdmtl/vdm-nginx-dev
+nginxprod=$vdmtl/vdm-nginx
 
 # Kubernetes stuff
 export KUBECONFIG="\
@@ -82,6 +88,7 @@ $HOME/.kube/config.lab:\
 $HOME/.kube/config.dev:\
 $HOME/.kube/config.infra:\
 $HOME/.kube/config.acc:\
+$HOME/.kube/config.cor:\
 $HOME/.kube/config.local"
 ka () {kubectl $* --all-namespaces }
 alias kgcm='k get configmap'
@@ -97,7 +104,56 @@ alias acckube='kubectl --kubeconfig ~/.kube/config.acc'
 alias prodkube='kubectl --kubeconfig ~/.kube/config.prod'
 alias infrakube='kubectl --kubeconfig ~/.kube/config.infra'
 alias kwatch='watch -n1 "printf %s \ \ \ \ \ \ \ \ \ \ \ \ \ ;kubectl config current-context;echo;echo;kubectl get pods --all-namespaces| grep -v kube-system|grep -v loadtest"'
+alias dockern='docker ps -a --format="{{ .Names }}"'
 
 # Keybindings
 bindkey 'p' history-beginning-search-backward
 bindkey 'P' history-beginning-search-backward
+
+grepf() {
+   RECURSE=""
+   if [ $1 = "-r" ]; then
+     RECURSE="-r"
+     shift
+   fi
+   PATTERN=$1
+   shift
+   grep -l $RECURSE ${PATTERN} $@ | xargs -o vi -c ":1" -c "/${PATTERN}"
+}
+
+# Ville only
+alias parefeu-refresh='touch /Users/Shared/outils/mac-config-reseau/vdmia-watch.lck'
+ldapuser() {
+   patron="CN=*$1*"
+   ldapsearch -H ldap://ile.mtl.qc.ca:389 -x -w WS0-1d4p -vvv -D SecServ-WSO-LDAP -b "DC=ile,DC=mtl,DC=qc,DC=ca" "$patron"| grep distinguishedName
+}
+ldapgroups() {
+   patron="CN=*$1*"
+   ldapsearch -H ldap://ile.mtl.qc.ca:389 -x -w WS0-1d4p -vvv -D SecServ-WSO-LDAP -b "DC=ile,DC=mtl,DC=qc,DC=ca" "$patron"| grep CN=
+}
+
+
+mldapsearch() {
+   patron="CN=*$1*";
+   echo "patron est $patron";
+   ldapsearch -H ldap://ile.mtl.qc.ca:389 -x -w WS0-1d4p -vvv -D SecServ-WSO-LDAP -b "DC=ile,DC=mtl,DC=qc,DC=ca" "$patron" | grep -i dn
+
+}
+mldapgroup() {
+   patron="CN=*$1*";
+   echo "patron est $patron";
+   ldapsearch -H ldap://ile.mtl.qc.ca:389 -x -w WS0-1d4p -vvv -D SecServ-WSO-LDAP -b "DC=ile,DC=mtl,DC=qc,DC=ca" "CN=$1" | grep -i memberof
+}
+
+mldapuser() {
+   patron="CN=*$1*";
+   echo "patron est $patron";
+   ldapsearch -H ldap://ile.mtl.qc.ca:389 -x -w WS0-1d4p -vvv -D SecServ-WSO-LDAP -b "DC=ile,DC=mtl,DC=qc,DC=ca" "CN=$1" 
+}
+
+mldapcodeu() {
+   patron="CN=*$1*";
+   echo "patron est $patron";
+   ldapsearch -H ldap://ile.mtl.qc.ca:389 -x -w WS0-1d4p -vvv -D SecServ-WSO-LDAP -b "DC=ile,DC=mtl,DC=qc,DC=ca" "sAMAccountName=$1"
+}
+

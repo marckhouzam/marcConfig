@@ -11,6 +11,7 @@ prompt_kubecontext() {
           ${kubectx} == *"acc"* ]]; then
         prompt_segment black yellow "${kubectx}"
   elif [[ ${kubectx} == *"prod"* ||
+          ${kubectx} == *"cor"* ||
           ${kubectx} == *"infra"* ]]; then
         prompt_segment black red "${kubectx}"
   fi

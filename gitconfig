@@ -1,0 +1,27 @@
+[core]
+	excludesfile = /Users/marckhouzam/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[user]
+	name = Marc Khouzam
+	email = marc.khouzam@ville.montreal.qc.ca
+[pull]
+	rebase = true
+[help]
+	autocorrect = -1
+[alias]
+	p = pull -p
+	f = fetch -p
+	st = status
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae>%Creset' --abbrev-commit --date=relative
+	co = checkout
+	c = commit -s
+	ca = commit -as
+	cm = commit -sm
+	cam = commit -asm
+	amend = commit --amend
+	bl = "! tig blame"
